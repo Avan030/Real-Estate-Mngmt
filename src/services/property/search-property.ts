@@ -1,21 +1,16 @@
-import mongoose from 'mongoose';
 import propertyModel from '@modules/property/schema';
 import { IProperty } from '@modules/property/model';
 
-export const searchProperties = async (filters: any) => {
-  
-    const query: any = {};
 
-    if (filters.location) {
-      query.location = filters.location as string;
+
+export const searchProperties = async (price?: number, size?: number): Promise<IProperty[]> => {
+  const query: { price?: number; size?: number } = {};
+    if (price) {
+      query.price = price;
     }
-  
-    if (filters.price) {
-      query.price = filters.price as number;
+    if (size) {
+      query.size = size;
     }
-  
-    if (filters.size) {
-      query.size = filters.size as number;
-    }
-    return propertyModel.find(query);
-  };
+  const allMusics:IProperty[] = await propertyModel.find(query);
+  return allMusics;
+};
